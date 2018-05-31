@@ -26,20 +26,70 @@ class AppDrawPanel extends JPanel {
     }
 }
 
-class AppMouseAdapter extends MouseAdapter {
+class ExitAction extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
-            System.exit(0);
+        System.exit(0);
+    }
+}
+
+class Original extends MouseAdapter {
+    public void mouseClicked(MouseEvent e) {
+
+    }
+}
+
+class grey extends MouseAdapter {
+    public BufferedImage img;
+    String path;
+    JLabel pic;
+
+    grey(BufferedImage img, String path, JLabel pic){
+        this.img=img;
+        this.path=path;
+        this.pic=pic;
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+
+        //get pixel value
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int p = img.getRGB(j, i);
+
+                //get alpha
+                int a = (p >> 24) & 0xff;
+
+                //get red
+                int r = (p >> 16) & 0xff;
+
+                //get green
+                int g = (p >> 8) & 0xff;
+
+                //get blue
+                int b = p & 0xff;
+
+                p = (a << 24) | (r << 16) | (g << 8) | b;
+
+                //set the pixel value
+                img.setRGB(j, i, p);
+                pic = new JLabel(new ImageIcon(img));
+            }
+        }
     }
 }
 
 public class AppDrawEvent {
+    public static BufferedImage img;
+
     public static void main(String[] args) {
 
-        String pic = args[0];
+        String path = args[0];
 
         try {
-            BufferedImage myPicture = ImageIO.read(new File(pic));
-            JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+            img = ImageIO.read(new File(path));
+            JLabel picLabel = new JLabel(new ImageIcon(img));
 
 
             JFrame frame = new AppFrame("APP - Übung 5");
@@ -58,7 +108,7 @@ public class AppDrawEvent {
             butpanel.add(gray, BorderLayout.CENTER);
             butpanel.add(pattern, BorderLayout.EAST);
 
-            Label name = new Label(pic);
+            Label name = new Label(path);
 
             picpanel.add(name, BorderLayout.CENTER);
             picpanel.add(picLabel, BorderLayout.SOUTH);
@@ -67,14 +117,23 @@ public class AppDrawEvent {
             exitpanel.add(exit, BorderLayout.EAST);
 
 
-            AppMouseAdapter m = new AppMouseAdapter();
+            ExitAction m = new ExitAction();
             exit.addMouseListener(m);
+
+            Original n = new Original();
+            original.addMouseListener(n);
+
+            grey l = new grey(img, path, picLabel);
+            gray.addMouseListener(l);
+            picLabel=l.pic;
+
 
             frame.pack();
             frame.setVisible(true);
+
         } catch (IOException e) {
             String workingDir = System.getProperty("user.dir");
-            System.out.println(pic + " Datei mit diesem Namen nicht gefunden,\n gesucht wird in diesem Verzeichnis : " + workingDir + "\n auch an die Dateiendung denken");
+            System.out.println(path + " Datei mit diesem Namen nicht gefunden,\n gesucht wird in diesem Verzeichnis : " + workingDir + "\n auch an die Dateiendung denken");
         }
 
 
