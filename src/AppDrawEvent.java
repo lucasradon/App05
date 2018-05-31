@@ -2,9 +2,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.Image;
+import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
+import java.awt.BorderLayout;
 
 class AppFrame extends JFrame {
     public AppFrame(String title) {
@@ -38,25 +39,33 @@ public class AppDrawEvent {
         String pic = args[0];
 
         try {
-            Image picture = ImageIO.read(new File("pic"));
-        } catch (IOException e) {
-            String workingDir = System.getProperty("user.dir");
-            System.out.println(pic+" Datei mit diesem Namen nicht gefunden,\n gesucht wird in diesem Verzeichnis : " + workingDir + "\n auch an die Dateiendung denken");
-        }
+            BufferedImage myPicture = ImageIO.read(new File(pic));
+            JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 
 
-        JFrame frame = new AppFrame("Allgemeines Programmierpraktikum");
-        JPanel butpanel = new JPanel();
-        frame.add(butpanel);
+            JFrame frame = new AppFrame("APP - Übung 5");
+            JPanel butpanel = new JPanel();
+            JPanel picpanel = new JPanel();
+            JPanel exitpanel = new JPanel();
+            frame.add(butpanel, BorderLayout.NORTH);
+            frame.add(picpanel, BorderLayout.CENTER);
+            frame.add(exitpanel, BorderLayout.SOUTH);
 
-        JButton original = new JButton("Original");
-        JButton gray = new JButton("Grayscale");
-        JButton pattern = new JButton("Pattern");
+            JButton original = new JButton("Original");
+            JButton gray = new JButton("Grayscale");
+            JButton pattern = new JButton("Pattern");
 
-        butpanel.add(original);
-        butpanel.add(gray);
-        butpanel.add(pattern);
+            butpanel.add(original);
+            butpanel.add(gray);
+            butpanel.add(pattern);
 
+            Label name = new Label(pic);
+
+            picpanel.add(name);
+            picpanel.add(picLabel, JLabel.CENTER);
+
+            JButton exit = new JButton("Ende");
+            exitpanel.add(exit,BorderLayout.EAST);
 
         /*
         JPanel draw = new AppDrawPanel();
@@ -68,7 +77,13 @@ public class AppDrawEvent {
         label.addMouseListener(m);
         */
 
-        frame.pack();
-        frame.setVisible(true);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (IOException e) {
+            String workingDir = System.getProperty("user.dir");
+            System.out.println(pic + " Datei mit diesem Namen nicht gefunden,\n gesucht wird in diesem Verzeichnis : " + workingDir + "\n auch an die Dateiendung denken");
+        }
+
+
     }
 }
