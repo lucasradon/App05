@@ -38,12 +38,12 @@ class Original extends MouseAdapter {
     }
 }
 
-class grey extends MouseAdapter {
+class grayScale extends MouseAdapter {
     public BufferedImage img;
     String path;
     JLabel pic;
 
-    grey(BufferedImage img, String path, JLabel pic){
+    grayScale(BufferedImage img, String path, JLabel pic){
         this.img=img;
         this.path=path;
         this.pic=pic;
@@ -73,9 +73,9 @@ class grey extends MouseAdapter {
 
                 //set the pixel value
                 img.setRGB(j, i, p);
-                pic = new JLabel(new ImageIcon(img));
             }
         }
+        pic = new JLabel(new ImageIcon(img));
     }
 }
 
@@ -99,13 +99,13 @@ public class AppDrawEvent {
             frame.add(picpanel, BorderLayout.CENTER);
             frame.add(exitpanel, BorderLayout.SOUTH);
 
-            JButton original = new JButton("Original");
-            JButton gray = new JButton("Grayscale");
-            JButton pattern = new JButton("Pattern");
+            JButton oButton = new JButton("Original");
+            JButton gsButton = new JButton("Grayscale");
+            JButton pButton = new JButton("Pattern");
 
-            butpanel.add(original, BorderLayout.WEST);
-            butpanel.add(gray, BorderLayout.CENTER);
-            butpanel.add(pattern, BorderLayout.EAST);
+            butpanel.add(oButton, BorderLayout.WEST);
+            butpanel.add(gsButton, BorderLayout.CENTER);
+            butpanel.add(pButton, BorderLayout.EAST);
 
             Label name = new Label(path);
 
@@ -120,10 +120,10 @@ public class AppDrawEvent {
             exit.addMouseListener(m);
 
             Original n = new Original();
-            original.addMouseListener(n);
+            oButton.addMouseListener(n);
 
-            grey l = new grey(img, path, picLabel);
-            gray.addMouseListener(l);
+            grayScale l = new grayScale(img, path, picLabel);
+            gsButton.addMouseListener(l);
             picLabel=l.pic;
 
 
