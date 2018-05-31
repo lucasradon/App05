@@ -28,7 +28,6 @@ class AppDrawPanel extends JPanel {
 
 class AppMouseAdapter extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() > 1)
             System.exit(0);
     }
 }
@@ -44,9 +43,9 @@ public class AppDrawEvent {
 
 
             JFrame frame = new AppFrame("APP - Übung 5");
-            JPanel butpanel = new JPanel();
-            JPanel picpanel = new JPanel();
-            JPanel exitpanel = new JPanel();
+            JPanel butpanel = new JPanel(new BorderLayout());
+            JPanel picpanel = new JPanel(new BorderLayout());
+            JPanel exitpanel = new JPanel(new BorderLayout());
             frame.add(butpanel, BorderLayout.NORTH);
             frame.add(picpanel, BorderLayout.CENTER);
             frame.add(exitpanel, BorderLayout.SOUTH);
@@ -55,27 +54,21 @@ public class AppDrawEvent {
             JButton gray = new JButton("Grayscale");
             JButton pattern = new JButton("Pattern");
 
-            butpanel.add(original);
-            butpanel.add(gray);
-            butpanel.add(pattern);
+            butpanel.add(original, BorderLayout.WEST);
+            butpanel.add(gray, BorderLayout.CENTER);
+            butpanel.add(pattern, BorderLayout.EAST);
 
             Label name = new Label(pic);
 
-            picpanel.add(name);
-            picpanel.add(picLabel, JLabel.CENTER);
+            picpanel.add(name, BorderLayout.CENTER);
+            picpanel.add(picLabel, BorderLayout.SOUTH);
 
             JButton exit = new JButton("Ende");
-            exitpanel.add(exit,BorderLayout.EAST);
+            exitpanel.add(exit, BorderLayout.EAST);
 
-        /*
-        JPanel draw = new AppDrawPanel();
-        JLabel label = new JLabel("Doppelklicken zum Beenden");
-        panel.add(draw);
-        panel.add(label);
 
-        AppMouseAdapter m = new AppMouseAdapter();
-        label.addMouseListener(m);
-        */
+            AppMouseAdapter m = new AppMouseAdapter();
+            exit.addMouseListener(m);
 
             frame.pack();
             frame.setVisible(true);
