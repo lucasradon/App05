@@ -58,9 +58,6 @@ class grey extends MouseAdapter {
             for (int j = 0; j < width; j++) {
                 int p = img.getRGB(j, i);
 
-                //get alpha
-                int a = (p >> 24) & 0xff;
-
                 //get red
                 int r = (p >> 16) & 0xff;
 
@@ -70,7 +67,9 @@ class grey extends MouseAdapter {
                 //get blue
                 int b = p & 0xff;
 
-                p = (a << 24) | (r << 16) | (g << 8) | b;
+                int mix =(r+g+b)/3;
+
+                p =  (mix << 16) | (mix << 8) | mix;
 
                 //set the pixel value
                 img.setRGB(j, i, p);
