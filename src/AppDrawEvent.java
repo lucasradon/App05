@@ -18,17 +18,6 @@ class AppFrame extends JFrame {
     }
 }
 
-class AppDrawPanel extends JPanel {
-    public Dimension getPreferredSize() {
-        return new Dimension(500, 200);
-    }
-
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawLine(0, 0, 0, 0);
-    }
-}
-
 class ExitAction extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         System.exit(0);
@@ -37,8 +26,8 @@ class ExitAction extends MouseAdapter {
 
 class Original extends MouseAdapter {
 
-    public BufferedImage img, pic;
-    JLabel picLabel;
+    private BufferedImage img, pic;
+    private JLabel picLabel;
 
     Original(BufferedImage img, BufferedImage pic, JLabel picLabel) {
         this.img = img;
@@ -67,8 +56,8 @@ class Original extends MouseAdapter {
 
 class GrayScale extends MouseAdapter {
 
-    BufferedImage img, pic;
-    JLabel picLabel;
+    private BufferedImage img, pic;
+    private JLabel picLabel;
 
     GrayScale(BufferedImage img, BufferedImage pic, JLabel picLabel) {
         this.img = img;
@@ -112,8 +101,8 @@ class GrayScale extends MouseAdapter {
 
 class Pattern extends MouseAdapter {
 
-    BufferedImage img, pic;
-    JLabel picLabel;
+    private BufferedImage img, pic;
+    private JLabel picLabel;
 
     Pattern(BufferedImage img, BufferedImage pic, JLabel picLabel) {
         this.img = img;
