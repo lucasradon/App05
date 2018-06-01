@@ -19,18 +19,9 @@ class AppDrawPanel extends JPanel {
         return new Dimension(500, 200);
     }
 
-    int x1, x2, y1, y2;
-
-    void setxy(int x1, int x2, int y1, int y2){
-        this.x1=x1;
-        this.x2=x2;
-        this.y1=y1;
-        this.y2=y2;
-    }
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawLine(x1, y1, x2, y2);
+        g.drawLine(0,0,0,0);
     }
 }
 
@@ -57,10 +48,10 @@ class Original extends MouseAdapter {
             for (int j = 0; j < width; j++) {
                 int p = img.getRGB(j, i);
 
-                pic.setRGB(j,i,p);
-                pic.setRGB(j,i+1,p);
-                pic.setRGB(j+1, i,p);
-                pic.setRGB(j+1, i+1, p);
+                pic.setRGB(2*j,2*i,p);
+                pic.setRGB(2*j,2*i+1,p);
+                pic.setRGB(2*j+1, 2*i,p);
+                pic.setRGB(2*j+1, 2*i+1, p);
             }
         }
         JFrame O = new JFrame("Original");
@@ -72,13 +63,12 @@ class Original extends MouseAdapter {
 }
 
 class grayScale extends MouseAdapter {
-    public BufferedImage img;
-    String path;
-    JPanel pic;
+    BufferedImage img;
+    BufferedImage pic;
 
-    grayScale(BufferedImage img, String path, JLabel pic){
+    grayScale(BufferedImage img, BufferedImage pic){
         this.img=img;
-        this.path=path;
+        this.pic=pic;
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -104,11 +94,14 @@ class grayScale extends MouseAdapter {
                 p =  (mix << 16) | (mix << 8) | mix;
 
                 //set the pixel value
-                img.setRGB(j, i, p);
+                pic.setRGB(2*j, 2*i, p);
+                pic.setRGB(2*j,2*i+1,p);
+                pic.setRGB(2*j+1, 2*i,p);
+                pic.setRGB(2*j+1, 2*i+1, p);
             }
         }
         JFrame O = new JFrame("Grayscale");
-        JLabel test = new JLabel(new ImageIcon(img));
+        JLabel test = new JLabel(new ImageIcon(pic));
         O.add(test);
         O.pack();
         O.setVisible(true);
@@ -163,7 +156,7 @@ public class AppDrawEvent {
             Original n = new Original(img, bi);
             oButton.addMouseListener(n);
 
-            grayScale l = new grayScale(img, path, picLabel);
+            grayScale l = new grayScale(img, bi);
             gsButton.addMouseListener(l);
 
 
